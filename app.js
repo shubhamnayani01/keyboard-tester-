@@ -1,23 +1,15 @@
-/* ─────────────────────────────────────────────────────────────────
-   Keyboard Visualizer — app.js
-   Detects: keyboard events, mouse clicks, touch presses
-   ───────────────────────────────────────────────────────────────── */
-
 (function () {
   'use strict';
 
-  /* ── State ─────────────────────────────────────────────────────── */
   let totalPresses = 0;
   let activeKeys   = new Set();  // currently held codes
   const MAX_HISTORY = 18;
 
-  /* ── DOM refs ──────────────────────────────────────────────────── */
   const historyTrack = document.getElementById('history-track');
   const totalEl      = document.getElementById('total-count');
   const activeEl     = document.getElementById('active-count');
   const lastKeyEl    = document.getElementById('last-key');
 
-  /* ── Build code → element map ──────────────────────────────────── */
   const keyMap = {};
   document.querySelectorAll('.key[data-code]').forEach(el => {
     keyMap[el.dataset.code] = el;
@@ -43,13 +35,13 @@
       const data   = buf.getChannelData(0);
       for (let i = 0; i < data.length; i++) {
         const t = i / data.length;
-        // white noise envelope — sharp attack, quick decay
+        
         data[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 5) * 0.3;
       }
       const src = ctx.createBufferSource();
       src.buffer = buf;
 
-      // add a tiny pitch filter for a softer "click"
+      
       const filter = ctx.createBiquadFilter();
       filter.type = 'bandpass';
       filter.frequency.value = 2800;
@@ -65,7 +57,6 @@
     } catch (_) { /* silence audio errors */ }
   }
 
-  /* ── Ripple effect ─────────────────────────────────────────────── */
   function spawnRipple(el, clientX, clientY) {
     const rect = el.getBoundingClientRect();
     const r    = document.createElement('span');
@@ -78,7 +69,7 @@
     r.addEventListener('animationend', () => r.remove(), { once: true });
   }
 
-  /* ── History ───────────────────────────────────────────────────── */
+  
   function getLabelForCode(code) {
     const el = keyMap[code];
     if (!el) return code.replace(/^(Key|Digit|Arrow)/, '');
@@ -105,14 +96,14 @@
     setTimeout(() => pill.classList.remove('fresh'), 400);
   }
 
-  /* ── Stats update ──────────────────────────────────────────────── */
+  
   function updateStats(lastCode) {
     totalEl.textContent  = totalPresses;
     activeEl.textContent = activeKeys.size;
     if (lastCode) lastKeyEl.textContent = getLabelForCode(lastCode);
   }
 
-  /* ── Activate / Deactivate ─────────────────────────────────────── */
+  
   function activateKey(code, clientX, clientY) {
     const el = keyMap[code];
     if (!el) return; // unknown key — ignore safely
@@ -141,7 +132,7 @@
     updateStats(null);
   }
 
-  /* ── Keyboard Events ───────────────────────────────────────────── */
+  
   document.addEventListener('keydown', e => {
     // Allow F5 / F12 / Ctrl+* to still work in browser
     if (e.code === 'F5' || e.code === 'F12') return;
@@ -156,7 +147,7 @@
   // If focus lost (tab switch, etc.) release all keys
   window.addEventListener('blur', deactivateAll);
 
-  /* ── Mouse Events on rendered keys ────────────────────────────── */
+  
   document.querySelectorAll('.key[data-code]').forEach(el => {
     const code = el.dataset.code;
 
@@ -168,10 +159,7 @@
     el.addEventListener('mouseup', () => deactivateKey(code));
     el.addEventListener('mouseleave', () => deactivateKey(code));
 
-    /* ── Touch Events ──────────────────────────────────────────────
-       Each touch point is tracked independently so multi-finger
-       presses (e.g. Shift + A) all register simultaneously.
-    ─────────────────────────────────────────────────────────────── */
+
     el.addEventListener('touchstart', e => {
       e.preventDefault(); // prevent ghost mouse events
       for (const touch of e.changedTouches) {
@@ -190,7 +178,7 @@
     }, { passive: false });
   });
 
-  /* ── Global touch: release keys if finger leaves keyboard area ── */
+  
   document.addEventListener('touchend', e => {
     // If touch ends outside any key, clear stragglers
     for (const touch of e.changedTouches) {
@@ -202,7 +190,7 @@
     }
   }, { passive: true });
 
-  /* ── Init stats ────────────────────────────────────────────────── */
+
   updateStats(null);
 
 })();
