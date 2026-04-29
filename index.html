@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keyboard Visualizer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="app">
+    <header>
+      <h1>KEY<span>BOARD</span></h1>
+      <p class="subtitle">Press any key — every touch detected</p>
+    </header>
+
+    <div id="history-bar">
+      <span class="history-label">HISTORY</span>
+      <div id="history-track"></div>
+    </div>
+
+    <div id="keyboard">
+
+      <!-- F vaddi rows -->
+      <div class="kb-row" id="row-fn">
+        <button class="key" data-code="Escape">ESC</button>
+        <div class="gap-md"></div>
+        <button class="key" data-code="F1">F1</button>
+        <button class="key" data-code="F2">F2</button>
+        <button class="key" data-code="F3">F3</button>
+        <button class="key" data-code="F4">F4</button>
+        <div class="gap-sm"></div>
+        <button class="key" data-code="F5">F5</button>
+        <button class="key" data-code="F6">F6</button>
+        <button class="key" data-code="F7">F7</button>
+        <button class="key" data-code="F8">F8</button>
+        <div class="gap-sm"></div>
+        <button class="key" data-code="F9">F9</button>
+        <button class="key" data-code="F10">F10</button>
+        <button class="key" data-code="F11">F11</button>
+        <button class="key" data-code="F12">F12</button>
+      </div>
+
+      <!-- Numbers vadi row-->
+      <div class="kb-row">
+        <button class="key" data-code="Backquote"><span class="top">`</span><span class="bot">~</span></button>
+        <button class="key" data-code="Digit1"><span class="top">1</span><span class="bot">!</span></button>
+        <button class="key" data-code="Digit2"><span class="top">2</span><span class="bot">@</span></button>
+        <button class="key" data-code="Digit3"><span class="top">3</span><span class="bot">#</span></button>
+        <button class="key" data-code="Digit4"><span class="top">4</span><span class="bot">$</span></button>
+        <button class="key" data-code="Digit5"><span class="top">5</span><span class="bot">%</span></button>
+        <button class="key" data-code="Digit6"><span class="top">6</span><span class="bot">^</span></button>
+        <button class="key" data-code="Digit7"><span class="top">7</span><span class="bot">&amp;</span></button>
+        <button class="key" data-code="Digit8"><span class="top">8</span><span class="bot">*</span></button>
+        <button class="key" data-code="Digit9"><span class="top">9</span><span class="bot">(</span></button>
+        <button class="key" data-code="Digit0"><span class="top">0</span><span class="bot">)</span></button>
+        <button class="key" data-code="Minus"><span class="top">-</span><span class="bot">_</span></button>
+        <button class="key" data-code="Equal"><span class="top">=</span><span class="bot">+</span></button>
+        <button class="key w-backspace" data-code="Backspace">⌫ BACK</button>
+      </div>
+
+      <!-- QWERTY vadi row -->
+      <div class="kb-row">
+        <button class="key w-tab" data-code="Tab">TAB</button>
+        <button class="key" data-code="KeyQ">Q</button>
+        <button class="key" data-code="KeyW">W</button>
+        <button class="key" data-code="KeyE">E</button>
+        <button class="key" data-code="KeyR">R</button>
+        <button class="key" data-code="KeyT">T</button>
+        <button class="key" data-code="KeyY">Y</button>
+        <button class="key" data-code="KeyU">U</button>
+        <button class="key" data-code="KeyI">I</button>
+        <button class="key" data-code="KeyO">O</button>
+        <button class="key" data-code="KeyP">P</button>
+        <button class="key" data-code="BracketLeft"><span class="top">[</span><span class="bot">{</span></button>
+        <button class="key" data-code="BracketRight"><span class="top">]</span><span class="bot">}</span></button>
+        <button class="key w-backslash" data-code="Backslash"><span class="top">\</span><span class="bot">|</span></button>
+      </div>
+
+      <!-- ASDF vadi Row  -->
+      <div class="kb-row">
+        <button class="key w-caps" data-code="CapsLock">CAPS</button>
+        <button class="key" data-code="KeyA">A</button>
+        <button class="key" data-code="KeyS">S</button>
+        <button class="key" data-code="KeyD">D</button>
+        <button class="key" data-code="KeyF">F</button>
+        <button class="key" data-code="KeyG">G</button>
+        <button class="key" data-code="KeyH">H</button>
+        <button class="key" data-code="KeyJ">J</button>
+        <button class="key" data-code="KeyK">K</button>
+        <button class="key" data-code="KeyL">L</button>
+        <button class="key" data-code="Semicolon"><span class="top">;</span><span class="bot">:</span></button>
+        <button class="key" data-code="Quote"><span class="top">'</span><span class="bot">"</span></button>
+        <button class="key w-enter" data-code="Enter">ENTER</button>
+      </div>
+
+      <!-- ZXCV vadi Row -->
+      <div class="kb-row">
+        <button class="key w-shiftl" data-code="ShiftLeft">SHIFT</button>
+        <button class="key" data-code="KeyZ">Z</button>
+        <button class="key" data-code="KeyX">X</button>
+        <button class="key" data-code="KeyC">C</button>
+        <button class="key" data-code="KeyV">V</button>
+        <button class="key" data-code="KeyB">B</button>
+        <button class="key" data-code="KeyN">N</button>
+        <button class="key" data-code="KeyM">M</button>
+        <button class="key" data-code="Comma"><span class="top">,</span><span class="bot">&lt;</span></button>
+        <button class="key" data-code="Period"><span class="top">.</span><span class="bot">&gt;</span></button>
+        <button class="key" data-code="Slash"><span class="top">/</span><span class="bot">?</span></button>
+        <button class="key w-shiftr" data-code="ShiftRight">SHIFT</button>
+      </div>
+
+      <!-- chelli ane arrows vadi row -->
+      <div class="kb-row" id="row-bottom">
+        <button class="key w-ctrl" data-code="ControlLeft">CTRL</button>
+        <button class="key w-alt" data-code="AltLeft">ALT</button>
+        <button class="key w-space" data-code="Space"></button>
+        <button class="key w-alt" data-code="AltRight">ALT</button>
+        <button class="key w-ctrl" data-code="ControlRight">CTRL</button>
+        <div class="gap-sm"></div>
+        <div class="arrow-cluster">
+          <div class="arrow-top">
+            <button class="key arrow-key" data-code="ArrowUp">↑</button>
+          </div>
+          <div class="arrow-bottom">
+            <button class="key arrow-key" data-code="ArrowLeft">←</button>
+            <button class="key arrow-key" data-code="ArrowDown">↓</button>
+            <button class="key arrow-key" data-code="ArrowRight">→</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="stats-bar">
+      <div class="stat"><span id="total-count">0</span><label>KEYS PRESSED</label></div>
+      <div class="stat"><span id="active-count">0</span><label>HELD NOW</label></div>
+      <div class="stat" id="last-key-stat"><span id="last-key">—</span><label>LAST KEY</label></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

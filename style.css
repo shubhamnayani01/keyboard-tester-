@@ -1,0 +1,349 @@
+/* ─── Reset & Base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap');
+
+:root {
+  --bg:          #0c0c0f;
+  --surface:     #13131a;
+  --surface2:    #1c1c26;
+  --key-bg:      #1a1a24;
+  --key-border:  #2a2a3a;
+  --key-top:     #222230;
+  --text:        #e8e8f0;
+  --text-muted:  #5a5a72;
+  --accent:      #7c6cff;
+  --accent-glow: rgba(124,108,255,0.45);
+  --accent2:     #ff6caf;
+  --accent2-glow:rgba(255,108,175,0.35);
+  --press-bg:    #7c6cff;
+  --press-text:  #fff;
+  --key-h:       44px;
+  --key-w:       44px;
+  --gap:         5px;
+  --radius:      7px;
+  --fn-h:        34px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  overflow-x: hidden;
+}
+
+/* ─── App Shell ─────────────────────────────────────────────────── */
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  gap: 1.5rem;
+}
+
+/* ─── Header ────────────────────────────────────────────────────── */
+header {
+  text-align: center;
+}
+
+header h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1;
+}
+
+header h1 span {
+  color: var(--accent);
+}
+
+.subtitle {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* ─── History Bar ───────────────────────────────────────────────── */
+#history-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 1020px;
+  background: var(--surface);
+  border: 1px solid var(--key-border);
+  border-radius: 10px;
+  padding: 8px 14px;
+  min-height: 44px;
+  overflow: hidden;
+}
+
+.history-label {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+#history-track {
+  display: flex;
+  gap: 5px;
+  overflow: hidden;
+  flex: 1;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.h-pill {
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--surface2);
+  border: 1px solid var(--key-border);
+  color: var(--text);
+  white-space: nowrap;
+  flex-shrink: 0;
+  animation: popIn 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+.h-pill.fresh {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* ─── Keyboard Shell ────────────────────────────────────────────── */
+#keyboard {
+  background: var(--surface);
+  border: 1px solid var(--key-border);
+  border-radius: 16px;
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  max-width: 1020px;
+  width: 100%;
+  position: relative;
+}
+
+/* subtle inner glow at top */
+#keyboard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(124,108,255,0.04) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+/* ─── Rows ──────────────────────────────────────────────────────── */
+.kb-row {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap);
+  align-items: center;
+}
+
+#row-fn { margin-bottom: 10px; }
+
+/* ─── Gaps ──────────────────────────────────────────────────────── */
+.gap-md { width: 22px; flex-shrink: 0; }
+.gap-sm { width: 14px; flex-shrink: 0; }
+
+/* ─── Key Base ──────────────────────────────────────────────────── */
+.key {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: var(--key-w);
+  height: var(--key-h);
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--key-border);
+  background: var(--key-bg);
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: default;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease,
+    transform 0.1s ease,
+    box-shadow 0.12s ease,
+    color 0.12s ease;
+  user-select: none;
+  overflow: hidden;
+  /* 3D bevel */
+  box-shadow:
+    0 1px 0 1px #2e2e40,
+    0 3px 0 0 #111118;
+}
+
+/* top/bottom dual-label */
+.key .top { font-size: 11px; line-height: 1; }
+.key .bot { font-size: 9px; color: var(--text-muted); margin-top: 2px; }
+
+/* fn row smaller */
+#row-fn .key { height: var(--fn-h); font-size: 10px; }
+
+/* ─── Pressed State ─────────────────────────────────────────────── */
+.key.pressed {
+  background: var(--press-bg);
+  border-color: var(--accent);
+  color: var(--press-text);
+  transform: translateY(2px) scale(0.94);
+  box-shadow:
+    0 0 0 0 transparent,
+    0 0 16px 2px var(--accent-glow),
+    inset 0 2px 6px rgba(0,0,0,0.35);
+}
+
+.key.pressed .bot { color: rgba(255,255,255,0.7); }
+
+/* ─── Ripple ────────────────────────────────────────────────────── */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.28);
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  transform: scale(0);
+  animation: rippleAnim 0.5s linear forwards;
+}
+
+@keyframes rippleAnim {
+  to { transform: scale(22); opacity: 0; }
+}
+
+/* ─── Key Width Variants ────────────────────────────────────────── */
+.w-backspace { width: 88px; }
+.w-tab       { width: 66px; }
+.w-backslash { width: 66px; }
+.w-caps      { width: 80px; }
+.w-enter     { width: 94px; }
+.w-shiftl    { width: 110px; }
+.w-shiftr    { width: 130px; }
+.w-ctrl      { width: 62px; }
+.w-alt       { width: 56px; }
+.w-space     { width: 280px; background: var(--key-top); }
+.arrow-key   { width: var(--key-w); height: calc(var(--key-h) * 0.85); font-size: 13px; }
+
+/* ─── Arrow Cluster ─────────────────────────────────────────────── */
+.arrow-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  align-items: center;
+}
+
+.arrow-top  { display: flex; }
+.arrow-bottom { display: flex; gap: var(--gap); }
+
+/* ─── Stats Bar ─────────────────────────────────────────────────── */
+#stats-bar {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.stat span {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: var(--accent);
+  min-width: 3ch;
+  text-align: center;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.stat label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+#last-key-stat span {
+  color: var(--accent2);
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  :root {
+    --key-w: 36px;
+    --key-h: 36px;
+    --fn-h: 28px;
+    --gap: 4px;
+    --radius: 5px;
+  }
+  .w-backspace { width: 72px; }
+  .w-tab       { width: 54px; }
+  .w-backslash { width: 54px; }
+  .w-caps      { width: 66px; }
+  .w-enter     { width: 76px; }
+  .w-shiftl    { width: 88px; }
+  .w-shiftr    { width: 104px; }
+  .w-ctrl      { width: 52px; }
+  .w-alt       { width: 46px; }
+  .w-space     { width: 200px; }
+  .gap-md { width: 16px; }
+  .gap-sm { width: 10px; }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --key-w: 28px;
+    --key-h: 32px;
+    --fn-h: 24px;
+    --gap: 3px;
+    --radius: 4px;
+  }
+  .key { font-size: 9px; }
+  .key .top { font-size: 9px; }
+  .key .bot { font-size: 8px; }
+  .w-backspace { width: 56px; }
+  .w-tab       { width: 42px; }
+  .w-backslash { width: 42px; }
+  .w-caps      { width: 50px; }
+  .w-enter     { width: 60px; }
+  .w-shiftl    { width: 68px; }
+  .w-shiftr    { width: 80px; }
+  .w-ctrl      { width: 40px; }
+  .w-alt       { width: 36px; }
+  .w-space     { width: 130px; }
+  .gap-md { width: 10px; }
+  .gap-sm { width: 6px; }
+  #keyboard { padding: 12px 10px; }
+  .stat span { font-size: 1.2rem; }
+}
